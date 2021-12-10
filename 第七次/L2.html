@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>L2</title>
+</head>
+<body>
+    <h3>login</h3>
+    Username<input type="text" id="usname"/>
+    Password<input type="text" id="paswd"/>
+    <input type="button" id="login" value="login"/>
+    <script type="text/javascript">
+        login.addEventListener('click',async()=>{
+            const json = JSON.stringify({
+                username:usname.value,
+                password:paswd.value
+            });
+            localStorage.setItem("person",json);
+            const url = new URL("/homework/auth/login","https://anonym.ink:8000")
+            const res = await fetch(url,{
+                method:"POST",
+                headers:{
+                    'Content-type':"application/json"
+                },
+                body:json
+            })
+            const token = await res.text();
+            console.log(token,res.status);
+            if(res.status==200){
+                localStorage.setItem("token",token);
+                const u = new URL("/homework/auth/next_level","https://anonym.ink:8000")
+                const r = await fetch(u,{
+                    method:"GET",
+                    headers:{
+                        'Authorization':'BEARER ${token}$'
+                    }
+                    })
+                    const text = await r.text();
+                    document.write(text);
+                }else throw console.error(res);
+    })
+    </script>
+</body>
+</html>

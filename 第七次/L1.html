@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>L1</title>
+</head>
+<body>
+    <input type="text" id="input" placeholder="Please input a text."/>
+    <button id="send">Send!</button>
+    <script>
+        send.onclick = async ()=>{
+            let url = new URL("/homework/fufubot_test/","https://anonym.ink:8000");
+            const message = input.value;
+            const formData = new FormData();
+            formData.append('message',message);
+            console.log(formData.has('message'));
+            const res = await fetch(url,{
+                    method:"POST",
+                    body: formData
+                })
+            const r = await res.text();
+            document.write(r);
+    }
+        
+        /*let xhr = new XMLHttpRequest();
+        xhr.open("post","/homework/fufubot_test/",true);
+        xhr.setRequestHeader('Content-type','multipart/formdata');
+        xhr.withCredentials=true;
+        xhr.send(formData);
+        document.write(xhr.responseText);
+        })*/
+    </script>
+</body>
+</html>
